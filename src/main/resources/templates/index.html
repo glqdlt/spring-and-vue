@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring With VueJS</title>
+    <script th:src="@{/webjars/vue/2.1.3/vue.js}"></script>
+    <script src="webjars/rxjs/2.3.24/rx.min.js"></script>
+    <script src="webjars/jquery/2.2.4/dist/jquery.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css"/>
+    <style>
+        .contents div {
+            margin-bottom: 5px;
+            border-bottom: 1px solid gray;
+            padding: 0px 20px 5px;
+        }
+
+        .contents div h2 {
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+<div class="w3-container w3-black">
+    <h2>Spring With Vue</h2>
+</div>
+<div>
+    <div class="w3-bar w3-light-gray">
+        <a class="w3-bar-item w3-button w3-hover-black" href="/">HelloVue</a>
+    </div>
+</div>
+
+
+<div class="contents">
+
+
+    <div id="java-area">
+        <h2>Java Area</h2>
+        <ul th:each="l : ${ list }">
+            <li th:text="${ l.message }">
+            </li>
+        </ul>
+    </div>
+
+    <div id="case001">
+        <h2>Case001</h2>
+        <p>{{ msg }}</p>
+    </div>
+
+
+    <div id="case002">
+
+        <h2>Case002</h2>
+        <label>{{ msg }}</label>
+        <br/>
+        <input v-model="msg" type="text"/>
+
+    </div>
+
+    <div id="case003">
+
+        <h2>Case003</h2>
+
+        <input type="checkbox" id="kim" value="kim" v-model="checkNames"/>
+        <label for="kim">kim</label>
+
+        <input type="checkbox" id="jhun" value="jhun" v-model="checkNames"/>
+        <label for="jhun">jhun</label>
+
+        <p>checkNames Value Data : {{ checkNames }}</p>
+
+    </div>
+
+    <div id="case004">
+        <h2>Case004</h2>
+
+        <button v-on:click="counter += 1">Add +</button>
+        <p>counter Data : {{ counter }}</p>
+
+    </div>
+
+    <div id="case005">
+        <h2>Case005</h2>
+        <input type="text" v-model="greeting"/>
+        <button type="button" v-on:click="sendGreeting()">Submit</button>
+
+        <p>Send Data : {{ greeting }}</p>
+        <p>Response Data : {{response}}</p>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:inline="javascript">
+
+    var case001 = new Vue({
+        el: '#case001',
+        data: {
+            msg: 'Hello Vue.js!'
+        }
+    })
+
+    var case002 = new Vue({
+        el: '#case002',
+        data: {
+            msg: 'Hello Vue-2'
+        }
+
+    })
+
+    var case003 = new Vue({
+        el: '#case003',
+        data: {
+            checkNames: []
+        }
+
+
+    })
+
+    var case004 = new Vue({
+        el: '#case004',
+        data: {
+            counter: 0
+        }
+    })
+
+    var case005 = new Vue({
+        el: '#case005',
+        data: {
+            greeting: '',
+            response: '',
+            /*<![CDATA[*/
+            apiUrl : [[${apiUrl}]]
+            /*]]>*/
+        },
+        methods: {
+            sendGreeting: function () {
+                $.ajax({
+                    type: 'POST',
+                    url: this.apiUrl,
+                    contentType: "application/json",
+                    data: this.getData()
+                }).done(function (res) {
+                    case005.response = res;
+                }).fail(function (err) {
+                    console.error(err);
+                })
+            },
+            getData: function () {
+                console.log(`send Data to ==> ${case005.greeting}`);
+                return JSON.stringify({message: case005.greeting});
+            }
+        }
+    })
+</script>
+</body>
+</html>
