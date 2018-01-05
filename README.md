@@ -1,10 +1,6 @@
 # spring-and-vue
 
-이 프로젝트는 알티캐스트 세미나를 위한 시연 데모 프로젝트입니다.
-
-프로젝트는 스프링 부트와 VueJS로 구성한 서버 사이드(전통적인) 웹 어플리케이션 되어 있습니다.
-
-이 프로젝트는 MIT 라이센스를 따릅니다.
+This project is spring boot & Vue JS
 
 MIT License
 
